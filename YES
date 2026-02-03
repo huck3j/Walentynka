@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hania, zostaniesz moją walentynką? 💘</title>
+  <style>
+    :root{
+      --bg1:#ffeff7; --bg2:#fff7e6; --card:#ffffffcc; --text:#1f1f1f;
+      --yes:#22c55e; --no:#ef4444; --shadow: 0 18px 50px rgba(0,0,0,.15);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh; display:grid; place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: radial-gradient(circle at 20% 15%, var(--bg1), transparent 55%),
+                  radial-gradient(circle at 80% 85%, var(--bg2), transparent 55%),
+                  linear-gradient(135deg, #fff, #ffe5f1);
+      overflow:hidden;
+    }
+    .hearts{
+      position:fixed; inset:0; pointer-events:none; opacity:.35;
+      background:
+        radial-gradient(circle at 10% 20%, #ff4d8d 0 6px, transparent 7px),
+        radial-gradient(circle at 35% 70%, #ff4d8d 0 5px, transparent 6px),
+        radial-gradient(circle at 75% 30%, #ff4d8d 0 7px, transparent 8px),
+        radial-gradient(circle at 85% 80%, #ff4d8d 0 6px, transparent 7px);
+      filter: blur(0.2px);
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .card{
+      width:min(680px, 92vw);
+      background:var(--card);
+      backdrop-filter: blur(8px);
+      border:1px solid rgba(255,255,255,.7);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:28px 22px;
+      text-align:center;
+      position:relative;
+    }
+    h1{ margin:0 0 6px; font-size:clamp(26px, 4.6vw, 38px); }
+    .sub{ margin:0 0 18px; opacity:.85; font-size:clamp(14px, 2.6vw, 16px); }
+    .badge{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#111827;
+      color:white;
+      font-size:12px;
+      letter-spacing:.3px;
+      margin-bottom:14px;
+    }
+    .meter{
+      margin:14px auto 18px;
+      width:min(520px, 92%);
+      background:rgba(0,0,0,.06);
+      border-radius:999px;
+      overflow:hidden;
+      height:12px;
+    }
+    .bar{
+      width:0%;
+      height:100%;
+      background:linear-gradient(90deg, #ff4d8d, #ffb703);
+      transition:width .35s ease;
+    }
+    .btns{
+      display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
+      margin-top:14px;
+    }
+    button{
+      border:0; border-radius:16px;
+      padding:14px 18px;
+      font-size:16px;
+      cursor:pointer;
+      box-shadow: 0 10px 22px rgba(0,0,0,.12);
+      transition: transform .08s ease, filter .12s ease;
+      user-select:none;
+    }
+    button:active{ transform: translateY(1px) scale(.99); }
+    .yes{ background:var(--yes); color:white; min-width:180px; }
+    .no{
+      background:var(--no); color:white; min-width:180px;
+      position:relative;
+    }
+    .mini{
+      font-size:12px; opacity:.9; margin-top:10px;
+    }
+    .footer{
+      margin-top:18px;
+      font-size:12px;
+      opacity:.7;
+    }
+    .toast{
+      position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
+      background:#111827; color:white; padding:10px 12px; border-radius:14px;
+      opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease;
+      box-shadow: 0 14px 30px rgba(0,0,0,.2);
+      max-width:min(720px, 92vw);
+      text-align:center;
+      font-size:14px;
+    }
+    .toast.show{ opacity:1; transform:translateX(-50%) translateY(-6px); }
+    .confetti{
+      position:fixed; inset:0; pointer-events:none;
+    }
+    .confetti span{
+      position:absolute;
+      top:-10px;
+      width:10px; height:14px;
+      border-radius:3px;
+      opacity:.9;
+      animation: drop 1.2s linear forwards;
+    }
+    @keyframes drop{
+      to{ transform: translateY(110vh) rotate(520deg); opacity:0.95; }
+    }
+    a.smalllink{ color:#111827; text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <div class="hearts"></div>
+
+  <main class="card" aria-live="polite">
+    <div class="badge">OFICJALNY WNIOSEK WALENTYNKOWY™</div>
+    <h1>Hania, zostaniesz moją walentynką? 💘</h1>
+    <p class="sub">
+      Wypełniłem wszystkie formalności: świeczki ✅, meme ✅, dramat w tle ✅.
+      Brakuje tylko Twojego podpisu (kliknięcia).
+    </p>
+
+    <div class="meter" title="Poziom zakochania">
+      <div class="bar" id="bar"></div>
+    </div>
+    <div class="mini" id="mini">Poziom słodkości: 0% (kliknij „TAK”, to się poprawi)</div>
+
+    <div class="btns">
+      <button class="yes" id="yesBtn">TAK 💚</button>
+      <button class="no" id="noBtn">NIE 😈</button>
+    </div>
+
+    <div class="footer">
+      PS. Przycisk „NIE” jest tu wyłącznie w celach dekoracyjnych (jak ja w garniturze).
+      <br/>
+      <span style="opacity:.9">Tip: działa też na telefonie.</span>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const toast = document.getElementById("toast");
+    const bar = document.getElementById("bar");
+    const mini = document.getElementById("mini");
+    const confetti = document.getElementById("confetti");
+
+    const noTexts = [
+      "Oj, pudło 😇", "To był misclick, wiem.", "Spróbuj jeszcze raz… w sensie TAK 😌",
+      "Przycisk NIE jest na urlopie.", "Nie działa. Działa tylko TAK.", "Hania, bądź mądra 😄"
+    ];
+
+    let sweetness = 0;
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(()=>toast.classList.remove("show"), 1400);
+    }
+
+    function setSweetness(val){
+      sweetness = Math.max(0, Math.min(100, val));
+      bar.style.width = sweetness + "%";
+      mini.textContent = `Poziom słodkości: ${sweetness}% ${sweetness>=80 ? "🥹💘" : ""}`;
+    }
+
+    function popConfetti(){
+      const colors = ["#ff4d8d","#22c55e","#f59e0b","#3b82f6","#a855f7","#ef4444"];
+      for(let i=0;i<90;i++){
+        const s = document.createElement("span");
+        s.style.left = Math.random()*100 + "vw";
+        s.style.background = colors[(Math.random()*colors.length)|0];
+        s.style.transform = `translateY(0) rotate(${Math.random()*360}deg)`;
+        s.style.animationDuration = (0.9 + Math.random()*0.9) + "s";
+        s.style.width = (6 + Math.random()*8) + "px";
+        s.style.height = (8 + Math.random()*12) + "px";
+        confetti.appendChild(s);
+        setTimeout(()=>s.remove(), 1600);
+      }
+    }
+
+    // „NIE” ucieka myszką i telepatycznie na dotyku 😄
+    function moveNoButton(){
+      const pad = 16;
+      const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+      const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+      const rect = noBtn.getBoundingClientRect();
+      const maxX = vw - rect.width - pad;
+      const maxY = vh - rect.height - pad;
+
+      const x = Math.random() * (maxX - pad) + pad;
+      const y = Math.random() * (maxY - pad) + pad;
+
+      noBtn.style.position = "fixed";
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    noBtn.addEventListener("mouseenter", () => {
+      moveNoButton();
+      showToast(noTexts[(Math.random()*noTexts.length)|0]);
+      setSweetness(sweetness + 7);
+    });
+
+    noBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      moveNoButton();
+      showToast("To NIE było blisko… 😅");
+      setSweetness(sweetness + 10);
+    });
+
+    // Dla telefonu: jak tylko dotknie obszaru wokół „NIE”, to ucieka
+    document.addEventListener("touchstart", (e) => {
+      const t = e.touches[0];
+      if(!t) return;
+      const r = noBtn.getBoundingClientRect();
+      const near = (t.clientX > r.left-20 && t.clientX < r.right+20 && t.clientY > r.top-20 && t.clientY < r.bottom+20);
+      if(near){
+        moveNoButton();
+        setSweetness(sweetness + 8);
+        showToast("Telefon też wie, że ma być TAK 😇");
+      }
+    }, {passive:true});
+
+    yesBtn.addEventListener("click", () => {
+      setSweetness(100);
+      popConfetti();
+      showToast("JEST TAK! 💚 Walentynkowy kontrakt przyjęty.");
+      yesBtn.textContent = "TAK (podpisane) ✅";
+      yesBtn.disabled = true;
+      noBtn.disabled = true;
+
+      // Finałowy komunikat na środku
+      setTimeout(() => {
+        document.querySelector("h1").textContent = "Oficjalnie: jesteśmy walentynkami! 💘";
+        document.querySelector(".sub").innerHTML =
+          "Dziękuję, Haniu 😌<br/>Teraz proszę przejść do punktu 2: przytulas + coś pysznego.";
+      }, 400);
+    });
+
+    // start
+    setSweetness(12);
+    showToast("Uwaga: wniosek zawiera 100% szczerości (i 0% wstydu).");
+  </script>
+</body>
+</html>
